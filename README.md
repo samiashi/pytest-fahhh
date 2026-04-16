@@ -22,9 +22,6 @@ If your project uses `pip`:
 pip install pytest-fahhh
 ```
 
-Pytest auto-discovers the plugin through the `pytest11` entry point, so there is no extra setup after install.
-The important part is that `pytest-fahhh` must be installed in the same environment where you run `pytest`.
-
 ## Usage
 
 Run `pytest` as usual:
