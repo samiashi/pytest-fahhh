@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "pytest-fahhh"
-version = "0.1.0"
+version = "0.1.1"
 description = "A pytest plugin that plays the fahhh meme sound when a test fails."
 readme = "README.md"
 license = "MIT"
