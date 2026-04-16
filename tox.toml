@@ -1,0 +1,16 @@
+env_list = ["lint", "py39", "py310", "py311", "py312", "py313", "py314"]
+
+[env_run_base]
+description = "run the test suite against the built package"
+labels = ["test"]
+package = "wheel"
+default_base_python = ["3.14", "3.13"]
+set_env = { PYTEST_FAHHH_DISABLE = "1" }
+commands = [["pytest", "-m", "not manual_sound_demo", "tests"]]
+
+[env.lint]
+description = "run ruff lint and formatting checks"
+labels = ["check"]
+package = "skip"
+deps = ["ruff>=0.12,<0.13"]
+commands = [["ruff", "check", "."], ["ruff", "format", "--check", "."]]

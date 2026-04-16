@@ -1,0 +1,60 @@
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12"]
+build-backend = "uv_build"
+
+[project]
+name = "pytest-fahhh"
+version = "0.1.0"
+description = "A pytest plugin that plays the fahhh meme sound when a test fails."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+dependencies = ["pytest>=7.0"]
+keywords = ["pytest", "plugin", "sound", "meme", "fahhh"]
+authors = [{ name = "Sami El Achi" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Pytest",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Testing",
+]
+
+[project.urls]
+Documentation = "https://github.com/samiashi/pytest-fahhh#readme"
+Homepage = "https://github.com/samiashi/pytest-fahhh"
+Issues = "https://github.com/samiashi/pytest-fahhh/issues"
+Releases = "https://github.com/samiashi/pytest-fahhh/releases"
+Repository = "https://github.com/samiashi/pytest-fahhh"
+
+[project.entry-points.pytest11]
+fahhh = "pytest_fahhh.plugin"
+
+[dependency-groups]
+dev = ["ruff>=0.12,<0.13"]
+
+[tool.pytest.ini_options]
+markers = [
+    "manual_sound_demo: intentionally failing demo test that showcases the fahhh sound",
+]
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.uv.build-backend]
+source-include = ["tests/**"]
+
+[tool.uv]
+default-groups = ["dev"]
