@@ -6,6 +6,7 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import warnings
 from importlib.resources import as_file, files
 from pathlib import Path
@@ -60,6 +61,10 @@ def _player_commands(sound_path: Path) -> list[list[str]]:
             ["mpg123", "-q", sound],
         ]
 
+    if sys.platform == "win32":
+        cmd = f"(New-Object Media.SoundPlayer '{sound}').PlaySync();"
+        return [["powershell", "-c", cmd]]
+
     return []
 
 
@@ -103,17 +108,27 @@ def _launch_player(command: list[str]) -> None:
 
 def play_failure_sound() -> None:
     """Play the packaged fahhh sound if a supported player is installed."""
-    resource = files("pytest_fahhh").joinpath("fahhh.mp3")
-    with as_file(resource) as sound_path:
-        command = _find_player_command(sound_path)
-        if command is None:
-            _warn_missing_player()
-            return
-
+    sound_file = files("pytest_fahhh").joinpath("fahhh.mp3")
+    with as_file(sound_file) as original_path:
+        temp_path = None
         try:
-            _launch_player(command)
-        except OSError:
-            _warn_missing_player()
+            temp_path = Path(tempfile.mktemp(suffix=".mp3"))
+            shutil.copyfile(original_path, temp_path)
+            command = _find_player_command(temp_path)
+            if command is None:
+                _warn_missing_player()
+                return
+
+            try:
+                _launch_player(command)
+            except OSError:
+                _warn_missing_player()
+        finally:
+            if temp_path is not None and temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except OSError:
+                    pass
 
 
 @pytest.hookimpl(hookwrapper=True)
